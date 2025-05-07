@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Saved Jump Sessions</title>
+    <style>
+        body {
+            background: #111;
+            color: #eee;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 { color: #00ff99; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #333;
+        }
+        input, button {
+            padding: 6px;
+            font-size: 1rem;
+            margin: 4px;
+        }
+        a { color: #00acee; }
+    </style>
+</head>
+<body>
+    <h1>📋 Saved Jump Sessions</h1>
+
+    <form method="get">
+        <input type="text" name="patient_id" placeholder="Patient ID">
+
+        <label for="start_date">From:</label>
+        <input type="datetime-local" name="start_date" id="start_date">
+
+        <label for="end_date">To:</label>
+        <input type="datetime-local" name="end_date" id="end_date">
+
+        <button type="submit">Filter</button>
+        <a href="{{ url_for('sessions_page') }}"><button type="button">Reset</button></a>
+    </form>
+
+
+    {% if sessions %}
+    <table>
+        <tr>
+            <th>Patient ID</th>
+            <th>Date</th>
+            <th>Side</th>
+            <th>Duration</th>
+            <th>Graph</th>
+            <th>Video</th>
+        </tr>
+        {% for s in sessions %}
+        <tr>
+            <td>{{ s.patient_id }}</td>
+            <td>{{ s.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ s.side }}</td>
+            <td>{{ s.duration or '-' }} s</td>
+            <td><a href="{{ url_for('get_graph', session_id=s._id) }}" target="_blank">View</a></td>
+            <td><a href="{{ url_for('get_video', session_id=s._id) }}">Download</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>No sessions found.</p>
+    {% endif %}
+</body>
+</html>
+

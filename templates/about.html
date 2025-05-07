@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Physio Tracker - About Us</title>
+    <style>
+        body {
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url("{{ url_for('static', filename='about.png') }}") no-repeat center center fixed;
+            background-size: cover;
+            color: #eee;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+        .navbar {
+            background-color: #1a1a1a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .navbar a {
+            color: #b084f6;
+            text-decoration: none;
+            padding: 14px 20px;
+        }
+        .navbar a:hover {
+            background-color: #333;
+            color: #fff;
+        }
+        .content {
+            max-width: 900px;
+            margin: 50px auto;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 40px;
+            border-radius: 10px;
+        }
+        h1, h2 {
+            color: #b084f6;
+        }
+        .team {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        .member img {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+        }
+        .timeline {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+        .timeline li {
+            margin: 10px 0;
+        }
+        blockquote {
+            font-style: italic;
+            margin: 20px 0;
+            border-left: 5px solid #b084f6;
+            padding-left: 10px;
+        }
+        .cta-btn {
+            background-color: #b084f6;
+            color: #0d0d0d;
+            padding: 12px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .cta-btn:hover {
+            background-color: #8e44ad;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div><a href="{{ url_for('home') }}">🏠 Home</a></div>
+    <div style="display: flex;">
+        <a href="{{ url_for('track') }}">Track Height</a>
+        <a href="{{ url_for('sessions_page') }}">Dashboard</a>
+	<a href="{{ url_for('compare') }}">Compare</a>
+	<a href="{{ url_for('insights') }}">Insights</a>
+        <a href="{{ url_for('about') }}">About Us</a>
+    </div>
+</div>
+
+<div class="content">
+    <h1>About Physio Tracker</h1>
+    <p>Physio Tracker empowers physiotherapists and patients with cutting-edge tools to monitor jump performance and recovery.</p>
+
+    <h2>Our Mission</h2>
+    <p>To bridge the gap between healthcare and technology, enhancing rehabilitation and athletic performance through real-time insights.</p>
+
+    <h2>Our Journey</h2>
+    <ul class="timeline">
+        <li><strong>2024:</strong> Conceptualized the idea for better physiotherapy tracking.</li>
+        <li><strong>2025:</strong> Developed the first prototype using RealSense & MediaPipe.</li>
+        <li><strong>2025:</strong> Integrated AI insights with Gemini LLM.</li>
+    </ul>
+
+    <h2>Meet Our Team</h2>
+    <div class="team">
+        <div class="member">
+            <img src="{{ url_for('static', filename='team1.png') }}" alt="Team Member">
+            <h3>Dr. Smith</h3>
+            <p>Lead Physiotherapist</p>
+        </div>
+        <div class="member">
+            <img src="{{ url_for('static', filename='team2.png') }}" alt="Team Member">
+            <h3>Jane Doe</h3>
+            <p>AI Engineer</p>
+        </div>
+    </div>
+
+    <h2>Testimonials</h2>
+    <blockquote>"Physio Tracker has transformed how I monitor my recovery!" — Athlete A</blockquote>
+
+    <h2>Contact Us</h2>
+    <p>📞 Phone: +44 (234) 567-8901</p>
+    <p>💬 WhatsApp: +44 (234) 567-8901</p>
+    <p>📍 Address: 123 Physio Lane, Health City, Wellness Country</p>
+
+</div>
+
+</body>
+</html>
+

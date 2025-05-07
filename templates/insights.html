@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Physio Tracker - Image Insights</title>
+    <style>
+        body {
+            background: url("{{ url_for('static', filename='dashboard1.png') }}") no-repeat center center fixed;
+            background-size: cover;
+            background-color: #0d0d2b;
+            color: #eee;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+
+        .navbar {
+            background-color: #1a1a1a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .navbar a {
+            color: #b084f6;
+            text-decoration: none;
+            padding: 14px 20px;
+        }
+        .navbar a:hover {
+            background-color: #333;
+            color: #fff;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #b084f6;
+        }
+
+        .shine-text {
+            color: #fff !important;
+            font-size: 3rem;
+            font-weight: 900;
+            text-shadow: 
+                0 0 8px #8e44ad, 
+                0 0 16px #8e44ad;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shine-text::after {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(120deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0.1) 100%);
+            animation: shineMove 3s infinite;
+        }
+
+        @keyframes shineMove {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: rgba(80, 80, 120, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .content img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .form-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-container input, .form-container button {
+            background-color: #222;
+            color: #eee;
+            border: 1px solid #b084f6;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+        .form-container button:hover {
+            background-color: #b084f6;
+            color: #0d0d0d;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div><a href="{{ url_for('home') }}">🏠 Home</a></div>
+    <div style="display: flex;">
+        <a href="{{ url_for('track') }}">Track Height</a>
+        <a href="{{ url_for('sessions_page') }}">Dashboard</a>
+        <a href="{{ url_for('compare') }}">Compare</a>
+        <a href="{{ url_for('insights') }}">Insights</a>
+        <a href="{{ url_for('about') }}">About Us</a>
+    </div>
+</div>
+
+<div class="form-container">
+    <h1 class="shine-text">INSIGHTS</h1>
+    <form method="post" action="/insights">
+        <input type="text" name="session_id" placeholder="Enter Session ObjectID" required>
+        <button type="submit">Get Insights</button>
+    </form>
+</div>
+
+{% if session %}
+<div class="content">
+    <img src="/graph/{{ session._id }}" alt="Graph">
+    <h2>Insights:</h2>
+    <p>{{ insights }}</p>
+</div>
+{% endif %}
+
+</body>
+</html>
+

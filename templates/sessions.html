@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Physio Tracker - Dashboard</title>
+    <style>
+        body {
+	    background:
+        url("{{ url_for('static', filename='dashboard1.png') }}") no-repeat center center fixed;
+    background-size: cover;
+    background-color: #0d0d2b; /* Optional fallback color */
+    color: #eee;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    /* padding-top: 60px; /* height of your navbar */
+        }
+        .navbar {
+            background-color: #1a1a1a;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .navbar a {
+            color: #b084f6;
+            text-decoration: none;
+            padding: 14px 20px;
+            display: block;
+        }
+        .navbar a:hover {
+            background-color: #333;
+            color: #fff;
+        }
+        h1 {
+            text-align: center;
+            color: #b084f6;
+        }
+	table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgba(80, 80, 120, 0.9); /* Semi-transparent background */
+    border-radius: 10px;
+    overflow: hidden;
+}
+th, td {
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    text-align: center;
+}
+	.shine-text {
+    color: #fff;
+    font-size: 3rem;
+    font-weight: 900;
+    text-shadow: 
+        0 0 8px #8e44ad, 
+        0 0 16px #8e44ad;
+    position: relative;
+    overflow: hidden;
+}
+
+.shine-text::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0.1) 100%);
+    animation: shineMove 3s infinite;
+}
+
+@keyframes shineMove {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+        .filter-form {
+            text-align: center;
+            margin: 20px;
+        }
+        .filter-form input, .filter-form button {
+            background-color: #222;
+            color: #eee;
+            border: 1px solid #b084f6;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        .filter-form button:hover {
+            background-color: #b084f6;
+            color: #0d0d0d;
+        }
+        .action-btn {
+            background-color: #b084f6;
+            color: #0d0d0d;
+            border: none;
+            padding: 5px 10px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .action-btn:hover {
+            background-color: #8e44ad;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div><a href="{{ url_for('home') }}">🏠 Home</a></div>
+    <div style="display: flex;">
+        <a href="{{ url_for('track') }}">Track Height</a>
+        <a href="{{ url_for('sessions_page') }}">Dashboard</a>
+	<a href="{{ url_for('compare') }}">Compare</a>
+	<a href="{{ url_for('insights') }}">Insights</a>
+	<a href="{{ url_for('about') }}">About Us</a>
+    </div>
+</div>
+
+<h1 class="shine-text" >JUMP SESSION DASHBOARD</h1>
+
+<form method="get" class="filter-form">
+    <input type="text" name="patient_id" placeholder="Patient ID">
+    <input type="datetime-local" name="start_date">
+    <input type="datetime-local" name="end_date">
+    <button type="submit">Filter</button>
+    <a href="{{ url_for('sessions_page') }}"><button type="button">Reset</button></a>
+</form>
+
+{% if sessions %}
+<table>
+    <tr>
+	<th>Object ID</th>
+        <th>Patient ID</th>
+        <th>Date</th>
+        <th>Side</th>
+        <th>Graph</th>
+        <th>Video</th>
+    </tr>
+    {% for s in sessions %}
+    <tr>
+	<td>{{ s._id }}</td>
+        <td>{{ s.patient_id }}</td>
+        <td>{{ s.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+        <td>{{ s.side }}</td>
+        <td><a class="action-btn" href="{{ url_for('get_graph', session_id=s._id) }}" target="_blank">View Graph</a></td>
+        <td><a class="action-btn" href="{{ url_for('get_video', session_id=s._id) }}">Download Video</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<table>
+    <tr>
+	<th>Object ID</th>
+        <th>Patient ID</th>
+        <th>Date</th>
+        <th>Side</th>
+        <th>Graph</th>
+        <th>Video</th>
+    </tr>
+</table>
+    <p style="text-align: center;">No sessions found.</p>
+{% endif %}
+
+</body>
+</html>
+

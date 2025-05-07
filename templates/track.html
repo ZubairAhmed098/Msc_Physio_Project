@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Physio Tracker - Track Height</title>
+    <style>
+        body {
+	    background: url("{{ url_for('static', filename='track.png') }}") no-repeat center center fixed;
+	    background-size: cover;
+            background-color: #0d0d0d;
+            color: #eee;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+        .navbar {
+            background-color: #1a1a1a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .navbar a {
+            color: #b084f6;
+            text-decoration: none;
+            padding: 14px 20px;
+        }
+        .navbar a:hover {
+            background-color: #333;
+            color: #fff;
+        }
+        .controls, .container {
+            text-align: center;
+            margin-top: 30px;
+        }
+	.shine-text {
+    color: #fff;
+    font-size: 3rem;
+    font-weight: 900;
+    text-shadow:
+        0 0 5px #8e44ad,
+        0 0 10px #8e44ad,
+        0 0 20px #8e44ad,
+        0 0 40px #8e44ad;
+    position: relative;
+    overflow: hidden;
+}
+
+.shine-text::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0.1) 100%);
+    animation: shineMove 3s infinite;
+}
+
+@keyframes shineMove {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+        button, input {
+            background-color: #222;
+            color: #eee;
+            border: 1px solid #b084f6;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #b084f6;
+            color: #0d0d0d;
+        }
+        img {
+            border: 3px solid #b084f6;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div><a href="{{ url_for('home') }}">🏠 Home</a></div>
+    <div style="display: flex;">
+        <a href="{{ url_for('track') }}">Track Height</a>
+        <a href="{{ url_for('sessions_page') }}">Dashboard</a>
+	<a href="{{ url_for('compare') }}">Compare</a>
+	<a href="{{ url_for('insights') }}">Insights</a>
+        <a href="{{ url_for('about') }}">About Us</a>
+    </div>
+</div>
+
+<h1 class="shine-text" style="text-align:center; color:#b084f6;">JUMP HEIGHT TRACKING</h1>
+
+<div class="controls">
+    <form method="get" action="{{ url_for('start', which='left') }}" style="display:inline;">
+        <input type="number" name="seconds" placeholder="Duration (s)" min="1">
+        <button type="submit">▶️ Start Left</button>
+    </form>
+    <form method="get" action="{{ url_for('start', which='right') }}" style="display:inline;">
+        <input type="number" name="seconds" placeholder="Duration (s)" min="1">
+        <button type="submit">▶️ Start Right</button>
+    </form>
+    <form method="get" action="{{ url_for('start', which='both') }}" style="display:inline;">
+        <input type="number" name="seconds" placeholder="Duration (s)" min="1">
+        <button type="submit">▶️ Start Both</button>
+    </form>
+    {% if streaming %}
+        <form method="get" action="{{ url_for('stop') }}" style="display:inline;">
+            <button type="submit">⏹️ Stop</button>
+        </form>
+    {% endif %}
+    <form method="post" action="{{ url_for('save') }}" style="display:inline;">
+        <input type="text" name="patient_id" placeholder="Patient Name" required>
+        <button type="submit">💾 Save Session</button>
+    </form>
+</div>
+
+{% if streaming %}
+<div class="container">
+    <img src="{{ url_for('video_feed') }}" width="640" height="480">
+    <img src="{{ url_for('graph_feed') }}" width="640" height="480">
+</div>
+{% endif %}
+
+</body>
+</html>
+
